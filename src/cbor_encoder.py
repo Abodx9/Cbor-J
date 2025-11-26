@@ -38,7 +38,7 @@ def encode(json_str: str, compress: bool = False) -> bytes:
     if not compress:
         return _cbor_encode_text(json_str)
     else:
-        compressed = zlib.compress(json_str.encode('utf-8'))
+        compressed = zlib.compress(json_str.encode('utf-8'), level=9)
         n = len(compressed)
         if n < 24:
             header = bytes([0x40 | n])
@@ -51,3 +51,15 @@ def encode(json_str: str, compress: bool = False) -> bytes:
         else:
             header = b'\x5b' + n.to_bytes(8, 'big')
         return header + compressed
+
+
+def show_diff(cbor_bytes: bytes):
+    first = cbor_bytes[0]
+    mt = first >> 5
+    if mt == 3:
+        length = cbor_bytes[1] if first == 0x78 else (first & 0x1F)
+        print(f"[CBOR] Text string, length={length}")
+    elif mt == 2:
+        length = cbor_bytes[1] if first == 0x58 else (first & 0x1F)
+        print(f"[CBOR] Byte string, length={length}")
+    print("Hex:", cbor_bytes[:20].hex() + ("..." if len(cbor_bytes) > 20 else ""))
