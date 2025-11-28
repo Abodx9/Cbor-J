@@ -9,3 +9,49 @@ Perfect for reducing storage size of large JSON files.
 - Simple API: `encode(json_str, compress=False) → bytes`, `decode(bytes, compress=False) → str`
 - Optional zlib compression (like EU Digital COVID Certificate format, *without* signing/Base45)
 
+## Installation
+
+```bash
+pip install cborJ
+```
+
+## Usage
+
+```python
+import json
+
+from cborJ import decode, encode
+
+json_data = {
+        "name": "Alice",
+        "age": 30,
+        "email": "alice@example.com",
+        "isMember": True,
+        "favorites": {
+            "color": "blue",
+            "food": "pizza"
+        },
+        "shoppingList": ["eggs", "milk", "bread"]
+    }
+json_str = json.dumps(json_data)
+
+
+print("--------------Encoding--------------")
+
+# Encode → (no compression)
+encoded = encode(json_str, compress=False)
+print(f"Original: {json_str.encode()}\n")
+print(f"CBOR:     {encoded}\n")
+
+# Encode → (with compression)
+encoded_zip = encode(json_str, compress=True)
+print(f"Original: {json_str.encode()}\n")
+print(f"CBOR:     {encoded_zip}\n")
+
+print("--------------Decoding--------------")
+
+# Decode → (with compression)
+decoded_zip = decode(encoded_zip, compress=True)
+print(f"CBOR:     {encoded_zip}\n")
+print(f"Original: {decoded_zip.encode()}\n")
+```
