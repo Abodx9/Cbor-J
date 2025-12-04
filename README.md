@@ -8,6 +8,7 @@ Perfect for reducing storage size of large JSON files.
 - Pure Python, no dependencies
 - Simple API: `encode(json_str, compress=False) → bytes`, `decode(bytes, compress=False) → str`
 - Optional zlib compression (like EU Digital COVID Certificate format, *without* signing/Base45)
+- Includes CLI tool
 
 ## Installation
 
@@ -54,4 +55,21 @@ print("--------------Decoding--------------")
 decoded_zip = decode(encoded_zip, compress=True)
 print(f"CBOR:     {encoded_zip}\n")
 print(f"Original: {decoded_zip.encode()}\n")
+```
+
+## CLI Tool
+
+### Encode JSON file to CBOR (stdout)
+```bash
+cborJ encode data.json > data.cbor
+```
+
+### Decode back
+```bash
+cborJ decode data.cbor > data.json
+```
+
+### With compression
+```bash
+cborJ encode --compress big.json > big.cbor
 ```
