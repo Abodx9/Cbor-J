@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "cborJ"
-version = "0.1.0"
+version = "0.1.1"
 description = "Lightweight pure-Python JSON ↔ CBOR encoder/decoder with optional zlib compression"
 readme = "README.md"
 license = {text = "MIT"}
