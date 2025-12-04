@@ -35,3 +35,6 @@ Repository = "https://github.com/Abodx9/Cbor-J"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/cborJ"]
+
+[project.scripts]
+cborJ = "cborJ.__main__:main"
